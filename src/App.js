@@ -1,4 +1,4 @@
-import { Component, useEffect, useState, useCallback } from 'react';
+import { Component, useEffect, useState, useCallback, useMemo } from 'react';
 import './App.css';
 import CounterItem from './counter-item/counter-item';
 
@@ -79,9 +79,11 @@ import CounterItem from './counter-item/counter-item';
 // 		);
 // 	}
 // }
-
 //useMemo hooks
 const bigCountNumber = number => {
+	let i = 0;
+	while (i < 1000000000) i++;
+	console.log(i);
 	return number * 2;
 };
 console.log(bigCountNumber);
@@ -102,7 +104,7 @@ const User = ({ firstName, lastName, link }) => {
 	};
 
 	//useMemo hook
-	const number = bigCountNumber(counter);
+	const number = useMemo(() => bigCountNumber(counter), [counter]);
 
 	const onRestart = () => {
 		setCount(0);
