@@ -1,7 +1,8 @@
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef, useContext } from 'react';
 import './App.css';
 import CounterItem from './counter-item/counter-item';
 import useInputValidation from './hook/useInputValidate';
+import { Context } from './context';
 
 // class User extends Component {
 // 	constructor(props) {
@@ -89,6 +90,7 @@ const bigCountNumber = number => {
 	console.log(i);
 	return number * 2;
 };
+const MyButton = ({ children }) => <button className='mt-3 btn btn-success'>{children}</button>;
 
 const User = ({ firstName, lastName, link }) => {
 	const [counter, setCount] = useState(0);
@@ -101,8 +103,12 @@ const User = ({ firstName, lastName, link }) => {
 	const frstname = useInputValidation('');
 	const latname = useInputValidation('');
 
-	const validateColorFrstname = frstname.validateInput() ? 'text-danger' : null;
-	const validateColorLatname = latname.validateInput() ? 'text-danger' : null;
+	const { state, dispetch } = useContext(Context);
+	console.log(state);
+	dispetch({ type: 'GET_DATA', payload: 'usm' });
+
+	// const validateColorFrstname = frstname.validateInput() ? 'text-danger' : null;
+	// const validateColorLatname = latname.validateInput() ? 'text-danger' : null;
 
 	const handleInput = e => {
 		const val = e.target.value;
@@ -186,7 +192,7 @@ const User = ({ firstName, lastName, link }) => {
 								onChange={latname.onChange}
 							/>
 						</div>
-						<button className='mt-3 btn btn-success'>Send data</button>
+						<MyButton>Send</MyButton>
 					</div>
 				</div>
 				<input type='text' className='form-control' placeholder='Card Number' onChange={handleInput} value={cardNumber} />
