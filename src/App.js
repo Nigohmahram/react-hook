@@ -1,6 +1,7 @@
-import { Component, useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import './App.css';
 import CounterItem from './counter-item/counter-item';
+import useInputValidation from './hook/useInputValidate';
 
 // class User extends Component {
 // 	constructor(props) {
@@ -79,14 +80,15 @@ import CounterItem from './counter-item/counter-item';
 // 		);
 // 	}
 // }
+//SHaxsiy hook yozish
+
 //useMemo hooks
 const bigCountNumber = number => {
 	let i = 0;
-	while (i < 1000000000) i++;
+	while (i < 1000000) i++;
 	console.log(i);
 	return number * 2;
 };
-console.log(bigCountNumber);
 
 const User = ({ firstName, lastName, link }) => {
 	const [counter, setCount] = useState(0);
@@ -96,6 +98,11 @@ const User = ({ firstName, lastName, link }) => {
 	const [cvcNumber, setCvcNumber] = useState('');
 	const cvcRef = useRef(null);
 	const dataRef = useRef(null);
+	const frstname = useInputValidation('');
+	const latname = useInputValidation('');
+
+	const validateColorFrstname = frstname.validateInput() ? 'text-danger' : null;
+	const validateColorLatname = latname.validateInput() ? 'text-danger' : null;
 
 	const handleInput = e => {
 		const val = e.target.value;
@@ -160,6 +167,28 @@ const User = ({ firstName, lastName, link }) => {
 				<h1>
 					Mening ismim - {firstName}, sharifim - {lastName}
 				</h1>
+				<div className='w-40 mx-auto mb-3'>
+					<div className='border p-3 mt-5'>
+						<p className='text-center fs-3'>Register</p>
+						<div className='d-flex gap-3'>
+							<input
+								type='text'
+								className={`form-control ${frstname.validateColor}`}
+								placeholder='Firstname'
+								value={frstname.value}
+								onChange={frstname.onChange}
+							/>
+							<input
+								type='text'
+								className={`form-control ${latname.validateColor}`}
+								placeholder='Lastname'
+								value={latname.value}
+								onChange={latname.onChange}
+							/>
+						</div>
+						<button className='mt-3 btn btn-success'>Send data</button>
+					</div>
+				</div>
 				<input type='text' className='form-control' placeholder='Card Number' onChange={handleInput} value={cardNumber} />
 				<input
 					ref={cvcRef}
