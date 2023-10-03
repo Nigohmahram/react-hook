@@ -80,6 +80,12 @@ import CounterItem from './counter-item/counter-item';
 // 	}
 // }
 
+//useMemo hooks
+const bigCountNumber = number => {
+	return number * 2;
+};
+console.log(bigCountNumber);
+
 const User = ({ firstName, lastName, link }) => {
 	const [counter, setCount] = useState(0);
 	const [isLogin, setIsLogin] = useState(false);
@@ -94,6 +100,9 @@ const User = ({ firstName, lastName, link }) => {
 		fontWeight: 'bold',
 		color: active ? 'black' : 'red',
 	};
+
+	//useMemo hook
+	const number = bigCountNumber(counter);
 
 	const onRestart = () => {
 		setCount(0);
@@ -110,7 +119,7 @@ const User = ({ firstName, lastName, link }) => {
 	};
 
 	const onToggle = () => setActive(prevState => !prevState);
-
+	//USECALLBACK
 	const counterGenerate = useCallback(() => {
 		return new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`);
 	}, [counter]);
@@ -131,7 +140,7 @@ const User = ({ firstName, lastName, link }) => {
 				</h1>
 				<a href={link}>Youtube chanell</a>
 				<p className='text-center h2' style={colors}>
-					User activeted {counter}
+					User activeted {number}
 				</p>
 				<div className='d-flex justify-content-center'>
 					<button className='btn btn-outline-primary' onClick={onToggle}>
