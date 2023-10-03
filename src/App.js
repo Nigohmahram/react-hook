@@ -1,4 +1,4 @@
-import { Component, useEffect, useState, useCallback, useMemo } from 'react';
+import { Component, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import './App.css';
 import CounterItem from './counter-item/counter-item';
 
@@ -92,6 +92,26 @@ const User = ({ firstName, lastName, link }) => {
 	const [counter, setCount] = useState(0);
 	const [isLogin, setIsLogin] = useState(false);
 	const [active, setActive] = useState(true);
+	const [cardNumber, setCardNumber] = useState('');
+	const [cvcNumber, setCvcNumber] = useState('');
+	const cvcRef = useRef(null);
+	const dataRef = useRef(null);
+
+	const handleInput = e => {
+		const val = e.target.value;
+		setCardNumber(val);
+		if (val.length === 16) {
+			cvcRef.current.focus();
+		}
+	};
+
+	const handleInputCvc = e => {
+		const val = e.target.value;
+		setCvcNumber(val);
+		if (val.length === 3) {
+			dataRef.current.focus();
+		}
+	};
 
 	const onIncrement = () => {
 		setCount(prevState => prevState + 1);
@@ -140,6 +160,16 @@ const User = ({ firstName, lastName, link }) => {
 				<h1>
 					Mening ismim - {firstName}, sharifim - {lastName}
 				</h1>
+				<input type='text' className='form-control' placeholder='Card Number' onChange={handleInput} value={cardNumber} />
+				<input
+					ref={cvcRef}
+					type='text'
+					className='form-control mt-2'
+					placeholder='Secure Number'
+					onChange={handleInputCvc}
+					value={cvcNumber}
+				/>
+				<input ref={dataRef} type='text' className='form-control mt-2' placeholder='Year/Number' />
 				<a href={link}>Youtube chanell</a>
 				<p className='text-center h2' style={colors}>
 					User activeted {number}
